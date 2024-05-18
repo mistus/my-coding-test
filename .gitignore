@@ -1,3 +1,4 @@
 node_modules/
 docker/db_data/
 dist/
+.env
