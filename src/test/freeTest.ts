@@ -2,6 +2,7 @@
 import dotenv from 'dotenv';
 import AppDataSource, { initDb } from '../db/dataSource';
 import { Animal } from '../db/entity/animal';
+import { Recipes } from '../db/entity/Recipes';
 
 /** 
  * docker内で実行するのを忘れずに
@@ -14,10 +15,18 @@ async function test(){
 
     // await postAnimal();
     // await getAnimals();
-    await getAnimal();
+    // await getAnimal();
+
+    //Recipes関連
+    // const repository = AppDataSource.getRepository(Recipes);
+    // const recipes = await repository.find();
+    // const recipes = await repository.findOneBy({id:2});
+    // console.log(recipes);
 
     process.exit(1);
 }
+
+
 
 
 async function getAnimal(){

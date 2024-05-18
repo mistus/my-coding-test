@@ -4,10 +4,18 @@ typeorm migration自動生成
 npx ts-node ./node_modules/typeorm/cli.js -d src/db/dataSource.ts migration:generate src/db/migration/migrationName
 ```
 
+typeorm entity自動生成, 指定パスにEntitiesを生成する
+```
+npx typeorm-model-generator -h db -d default -u root -x 123456 -e mysql -o ./src/db/
+npx typeorm-model-generator -h db -d default -u root -x 123456 -e mysql -o ./src/db --tables recipes
+```
+
+
 typeorm migration実行
 ```
 npx ts-node ./node_modules/typeorm/cli.js -d src/db/dataSource.ts migration:run
 ```
+
 
 ビルド
 ```

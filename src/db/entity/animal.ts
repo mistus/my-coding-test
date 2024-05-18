@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-@Entity()
+
+@Entity("animals")
 export class Animal extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
