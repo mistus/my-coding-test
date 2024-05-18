@@ -1,6 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-import 'reflect-metadata';
-
 @Entity()
 export class Animal extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -8,4 +6,18 @@ export class Animal extends BaseEntity {
 
   @Column()
   name!: string;
+
+  protected constructor(name: string) {
+    super();
+    this.name = name;
+  }
+
+  public getName(): string{
+    return this.name;
+  }
+
+  //factory method
+  public static createAnimal(name: string): Animal{
+    return new Animal(name);
+  }
 }

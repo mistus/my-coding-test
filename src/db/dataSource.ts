@@ -23,8 +23,8 @@ const AppDataSource:DataSource = new DataSource({
     username: "root",
     password: process.env.MYSQL_ROOT_PASSWORD,
     database: process.env.MYSQL_DATABASE,
-    entities: [path.join(__dirname, 'entity/*.ts')],
-    migrations: [path.join(__dirname, 'migration/*.ts')],
+    entities: [path.join(__dirname, 'entity/*')],
+    migrations: [path.join(__dirname, 'migration/*')],
     synchronize: false,
 });
 export default AppDataSource;

@@ -3,7 +3,7 @@
 npm init -y
 
 #typescirpインストール
-npm install --save-dev ts-node typescript @types/node 
+npm install --save-dev ts-node typescript @types/node axios
 npx tsc --init
 
 #server parts

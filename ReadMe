@@ -8,3 +8,13 @@ typeorm migration実行
 ```
 npx ts-node ./node_modules/typeorm/cli.js -d src/db/dataSource.ts migration:run
 ```
+
+ビルド
+```
+npx tsc 
+```
+
+サーバー起動
+```
+node dist/server.js
+```
