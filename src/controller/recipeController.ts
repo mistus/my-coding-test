@@ -28,17 +28,51 @@ export class recipeController {
         }
     }
 
-    public static async getRecipe(req: express.Request, res: express.Response) {
+    public static async getRecipe(req: express.Request, res: express.Response) 
+    {
         try {
             const id =  Number(req.params.id);
-            const repository = AppDataSource.getRepository(Animal);
-            const animal = await repository.findOneBy({
+            if (!id) {
+                res.status(200).json({
+                    "message": "failed!",
+                    "required": "id (number)"
+                });
+                return;
+            }
+
+            const repository = AppDataSource.getRepository(Recipes);
+            const recipe = await repository.findOneBy({
                 id: id,
             });
-            console.log(animal);
-            res.send(`getRecipeList`);
+
+            if(!recipe) {
+                res.status(200).json({
+                    "message": "failed!",
+                    "required": "recipe not found"
+                });
+                return;
+            }
+
+            res.status(200).json({
+                "message": "Recipe details by id",
+                "recipe": [
+                  {
+                    "id": `${recipe.id}`,
+                    "title": `${recipe.title}`,
+                    "making_time": `${recipe.makingTime}`,
+                    "serves": `${recipe.serves}`,
+                    "ingredients": `${recipe.ingredients}`,
+                    "cost": `${recipe.cost}`
+                  }
+                ]
+              });
+
+
         } catch (error) {
             console.error("予想外のエラーが発生しました", error);
+            res.status(500).json({
+                message: "Unexpected error occurred"
+            });
         }
     }
     
