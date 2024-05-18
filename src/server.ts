@@ -11,6 +11,7 @@ async function runServer(){
     const app = express();
     const port = process.env.PORT;
     // app.set('trust proxy', 1); //nginx代理
+    app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use("/", router);
     app.listen(port);
