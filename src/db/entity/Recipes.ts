@@ -1,7 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity("recipes", { schema: "default" })
-export class Recipes {
+export class Recipes extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id!: number;
 
@@ -20,15 +20,28 @@ export class Recipes {
   @Column("int", { name: "cost" })
   cost!: number;
 
-  @Column("datetime", {
-    name: "created_at",
-    default: () => "CURRENT_TIMESTAMP",
-  })
+  @CreateDateColumn()
   createdAt!: Date;
 
-  @Column("datetime", {
-    name: "updated_at",
-    default: () => "CURRENT_TIMESTAMP",
-  })
+  @UpdateDateColumn()
   updatedAt!: Date;
+
+  protected constructor(title: string, makingTime: string, serves: string, ingredients:string, cost:number) {
+    super();
+    this.title = title;
+    this.makingTime = makingTime;
+    this.serves = serves;
+    this.ingredients = ingredients;
+    this.cost = cost;
+  }
+
+  public static createNewRecipe(title: string, makingTime: string, serves: string, ingredients:string, cost:number): Recipes{
+    return new Recipes(
+      title,
+      makingTime,
+      serves,
+      ingredients,
+      cost
+    );
+  }
 }
