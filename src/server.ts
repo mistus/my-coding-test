@@ -1,14 +1,20 @@
 import express from 'express';
 import router from './router';
 import dotenv from 'dotenv';
-dotenv.config();
+import { initDb } from './db/dataSource';
 
-const app = express();
-const port = process.env.PORT || 3000;
+async function runServer(){
+    dotenv.config();
 
-// app.set('trust proxy', 1); //nginx代理
-app.use(express.urlencoded({ extended: true }));
-app.use("/", router);
-app.listen(port);
+    await initDb();
 
-console.log(`server is running. Port: ${port}`);
+    const app = express();
+    const port = process.env.PORT;
+    // app.set('trust proxy', 1); //nginx代理
+    app.use(express.urlencoded({ extended: true }));
+    app.use("/", router);
+    app.listen(port);
+    console.log(`server is running. Port: ${port}`);
+}
+
+runServer();

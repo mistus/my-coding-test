@@ -1,0 +1,10 @@
+
+typeorm migration自動生成
+```
+npx ts-node ./node_modules/typeorm/cli.js -d src/db/dataSource.ts migration:generate src/db/migration/migrationName
+```
+
+typeorm migration実行
+```
+npx ts-node ./node_modules/typeorm/cli.js -d src/db/dataSource.ts migration:run
+```
