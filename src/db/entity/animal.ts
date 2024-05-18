@@ -16,6 +16,10 @@ export class Animal extends BaseEntity {
     return this.name;
   }
 
+  public changeName(name: string) {
+    this.name = name;
+  }
+
   //factory method
   public static createAnimal(name: string): Animal{
     return new Animal(name);
