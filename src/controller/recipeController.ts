@@ -5,14 +5,26 @@ import { Recipes } from "../db/entity/Recipes";
 
 export class recipeController {
 
-    public static async getRecipeList(req: express.Request, res: express.Response) {
+    public static async getRecipeList(req: express.Request, res: express.Response)
+    {
         try {
-            const repository = AppDataSource.getRepository(Animal);
-            const animals = await repository.find();
-            console.log(animals);
-            res.send(`getRecipeList`);
+            const repository = AppDataSource.getRepository(Recipes);
+            const recipes = await repository.find();
+            res.status(200).json({
+                "recipes": recipes.map(recipe => ({
+                    "id": `${recipe.id}`,
+                    "title": `${recipe.title}`,
+                    "making_time": `${recipe.makingTime}`,
+                    "serves": `${recipe.serves}`,
+                    "ingredients": `${recipe.ingredients}`,
+                    "cost": `${recipe.cost}`
+                }))
+            });
         } catch (error) {
             console.error("予想外のエラーが発生しました", error);
+            res.status(500).json({
+                message: "Unexpected error occurred"
+            });
         }
     }
 
