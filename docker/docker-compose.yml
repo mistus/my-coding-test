@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=default
+  server:
+    image: node:16
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    volumes:
+      - ..:/app
+    depends_on:
+      - db
+    tty: true
