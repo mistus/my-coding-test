@@ -1,6 +1,6 @@
 import express from "express";
 import AppDataSource from "../db/dataSource";
-import { Recipes } from "../db/entity/Recipes";
+import { Recipes } from "../db/entity/recipe";
 
 export class recipeController {
 

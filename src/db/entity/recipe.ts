@@ -20,10 +20,10 @@ export class Recipes extends BaseEntity {
   @Column("int", { name: "cost" })
   cost!: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt!: Date;
 
   protected constructor(title: string, makingTime: string, serves: string, ingredients:string, cost:number) {
