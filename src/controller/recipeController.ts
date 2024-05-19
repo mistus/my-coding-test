@@ -203,7 +203,44 @@ export class recipeController {
         }
     }
 
-    public static async deleteRecipe(req: express.Request, res: express.Response) {
-        res.send(`deleteRecipe`);
+    public static async deleteRecipe(req: express.Request, res: express.Response)
+    {
+        const id =  Number(req.params.id);
+        if (!id) {
+            res.status(200).json({
+                "message": "failed!",
+                "required": "id (number)"
+            });
+            return;
+        }
+
+        const queryRunner = AppDataSource.createQueryRunner();
+        try{
+            await queryRunner.connect();
+            await queryRunner.startTransaction();
+
+            const repository = queryRunner.manager.getRepository(Animal);
+            const animal = await repository.findOneBy({
+                id: id,
+            });
+
+            if(!animal) {
+                res.status(200).json({ "message":"No Recipe found" });
+                return;
+            }
+ 
+            await repository.remove(animal);
+            await queryRunner.commitTransaction();
+
+            res.status(200).json({  "message": "Recipe successfully removed!" });
+        } catch (error) {
+            await queryRunner.rollbackTransaction();
+            console.error("予想外のエラーが発生しました", error);
+            res.status(500).json({
+                message: "Unexpected error occurred"
+            });
+        } finally {
+            await queryRunner.release();
+        }
     }
 }
