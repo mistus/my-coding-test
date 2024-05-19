@@ -44,4 +44,12 @@ export class Recipes extends BaseEntity {
       cost
     );
   }
+
+  public updateRecipe(title: string, makingTime: string, serves: string, ingredients:string, cost:number){
+    this.title = title;
+    this.makingTime = makingTime;
+    this.serves = serves;
+    this.ingredients = ingredients;
+    this.cost = cost;
+  }
 }

@@ -131,9 +131,76 @@ export class recipeController {
             await queryRunner.release();
         }
     }
+    
+    public static async patchRecipe(req: express.Request, res: express.Response) 
+    {
+        //パラメータチェック
+        const id =  Number(req.params.id);
+        if (!id) {
+            res.status(200).json({
+                "message": "failed!",
+                "required": "id (number)"
+            });
+            return;
+        }
+        const { title, making_time:makingTime, serves, ingredients, cost} = req.body;
+        if (
+            typeof title !== 'string' ||
+            typeof makingTime !== 'string' ||
+            typeof serves !== 'string' ||
+            typeof ingredients !== 'string' ||
+            typeof cost !== 'number'
+        ) {
+            return res.status(200).json(
+                {
+                    "message": "Recipe creation failed!",
+                    "required": "title, making_time, serves, ingredients, cost"
+                }
+            );
+        }
 
-    public static async patchRecipe(req: express.Request, res: express.Response) {
-        res.send(`patchRecipe`);
+        const queryRunner = AppDataSource.createQueryRunner();
+        try{
+            await queryRunner.connect();
+            await queryRunner.startTransaction();
+
+            const repository = queryRunner.manager.getRepository(Recipes);
+            const recipe = await repository.findOneBy({
+                id: id,
+            });
+
+            if(!recipe) {
+                res.status(200).json({
+                    "message": "failed!",
+                    "required": "recipe not found"
+                });
+                return;
+            }
+
+            recipe.updateRecipe(title, makingTime, serves, ingredients, cost);
+            await repository.save(recipe);
+            await queryRunner.commitTransaction();
+            res.status(200).json(  {
+                "message": "Recipe successfully updated!",
+                "recipe": [
+                  {
+                    "title": `${recipe.title}`,
+                    "making_time": `${recipe.makingTime}`,
+                    "serves": `${recipe.serves}`,
+                    "ingredients": `${recipe.ingredients}`,
+                    "cost": `${recipe.cost}`
+                  }
+                ]
+              });
+        } catch (error) {
+            await queryRunner.rollbackTransaction();
+            console.error("予想外のエラーが発生しました", error);
+            res.status(500).json({
+                message: "Unexpected error occurred"
+            });
+        } finally {
+            await queryRunner.release();
+        }
     }
 
     public static async deleteRecipe(req: express.Request, res: express.Response) {
