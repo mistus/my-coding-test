@@ -1,6 +1,5 @@
 import express from "express";
 import AppDataSource from "../db/dataSource";
-import { Animal } from "../db/entity/animal";
 import { Recipes } from "../db/entity/Recipes";
 
 export class recipeController {
@@ -219,17 +218,17 @@ export class recipeController {
             await queryRunner.connect();
             await queryRunner.startTransaction();
 
-            const repository = queryRunner.manager.getRepository(Animal);
-            const animal = await repository.findOneBy({
+            const repository = queryRunner.manager.getRepository(Recipes);
+            const recipe = await repository.findOneBy({
                 id: id,
             });
 
-            if(!animal) {
+            if(!recipe) {
                 res.status(200).json({ "message":"No Recipe found" });
                 return;
             }
  
-            await repository.remove(animal);
+            await repository.remove(recipe);
             await queryRunner.commitTransaction();
 
             res.status(200).json({  "message": "Recipe successfully removed!" });
