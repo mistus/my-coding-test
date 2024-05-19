@@ -21,4 +21,5 @@ services:
       - ..:/app
     depends_on:
       - db
-    tty: true
+    command: node dist/server.js
+#   tty: true
