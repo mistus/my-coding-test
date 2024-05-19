@@ -11,11 +11,11 @@ export class recipeController {
             const recipes = await repository.find();
             res.status(200).json({
                 "recipes": recipes.map(recipe => ({
-                    "id": `${recipe.id}`,
-                    "title": `${recipe.title}`,
-                    "making_time": `${recipe.makingTime}`,
-                    "serves": `${recipe.serves}`,
-                    "ingredients": `${recipe.ingredients}`,
+                    "id": recipe.id,
+                    "title": recipe.title,
+                    "making_time": recipe.makingTime,
+                    "serves": recipe.serves,
+                    "ingredients": recipe.ingredients,
                     "cost": `${recipe.cost}`
                 }))
             });
@@ -56,11 +56,11 @@ export class recipeController {
                 "message": "Recipe details by id",
                 "recipe": [
                   {
-                    "id": `${recipe.id}`,
-                    "title": `${recipe.title}`,
-                    "making_time": `${recipe.makingTime}`,
-                    "serves": `${recipe.serves}`,
-                    "ingredients": `${recipe.ingredients}`,
+                    "id": recipe.id,
+                    "title": recipe.title,
+                    "making_time": recipe.makingTime,
+                    "serves": recipe.serves,
+                    "ingredients": recipe.ingredients,
                     "cost": `${recipe.cost}`
                   }
                 ]
@@ -109,14 +109,14 @@ export class recipeController {
                 "message": "Recipe successfully created!",
                 "recipe": [
                   {
-                    "id": `${recipes.id}`,
-                    "title": `${recipes.title}`,
-                    "making_time": `${recipes.makingTime}`,
-                    "serves": `${recipes.serves}`,
-                    "ingredients": `${recipes.ingredients}`,
-                    "cost": `${recipes.cost}`,
-                    "created_at": `${recipes.cost}`,
-                    "updated_at": `${recipes.updatedAt}`
+                    "id": recipes.id,
+                    "title": recipes.title,
+                    "making_time": recipes.makingTime,
+                    "serves": recipes.serves,
+                    "ingredients": recipes.ingredients,
+                    "cost": recipes.cost,
+                    "created_at": recipes.cost,
+                    "updated_at": recipes.updatedAt
                   }
                 ]
               });
@@ -183,10 +183,10 @@ export class recipeController {
                 "message": "Recipe successfully updated!",
                 "recipe": [
                   {
-                    "title": `${recipe.title}`,
-                    "making_time": `${recipe.makingTime}`,
-                    "serves": `${recipe.serves}`,
-                    "ingredients": `${recipe.ingredients}`,
+                    "title": recipe.title,
+                    "making_time": recipe.makingTime,
+                    "serves": recipe.serves,
+                    "ingredients": recipe.ingredients,
                     "cost": `${recipe.cost}`
                   }
                 ]
