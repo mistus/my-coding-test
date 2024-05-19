@@ -83,7 +83,7 @@ export class recipeController {
             typeof makingTime !== 'string' ||
             typeof serves !== 'string' ||
             typeof ingredients !== 'string' ||
-            typeof cost !== 'number'
+            (typeof cost !== 'number' && isNaN(Number(cost))) //stringの数字を許可しとく
         ) {
             return res.status(200).json(
                 {
@@ -100,11 +100,11 @@ export class recipeController {
             await queryRunner.startTransaction();
 
             const repository = queryRunner.manager.getRepository(Recipes);
-            const recipes = Recipes.createNewRecipe(title, makingTime, serves, ingredients, cost);
+            const recipes = Recipes.createNewRecipe(title, makingTime, serves, ingredients, Number(cost));
             await repository.save(recipes);
-
+            
             await queryRunner.commitTransaction();
-
+  
             res.status(200).json({
                 "message": "Recipe successfully created!",
                 "recipe": [
@@ -114,14 +114,17 @@ export class recipeController {
                     "making_time": recipes.makingTime,
                     "serves": recipes.serves,
                     "ingredients": recipes.ingredients,
-                    "cost": recipes.cost,
-                    "created_at": recipes.cost,
-                    "updated_at": recipes.updatedAt
+                    "cost": recipes.cost.toString(),
+                    "created_at": recipeController.toDateString(recipes.createdAt),
+                    "updated_at": recipeController.toDateString(recipes.updatedAt)
                   }
                 ]
               });
         } catch (error) {
-            await queryRunner.rollbackTransaction();
+            if(queryRunner.isTransactionActive) {
+                await queryRunner.rollbackTransaction();
+            }
+
             console.error("予想外のエラーが発生しました", error);
             res.status(500).json({
                 message: "Unexpected error occurred"
@@ -148,7 +151,7 @@ export class recipeController {
             typeof makingTime !== 'string' ||
             typeof serves !== 'string' ||
             typeof ingredients !== 'string' ||
-            typeof cost !== 'number'
+            (typeof cost !== 'number' && isNaN(Number(cost)))
         ) {
             return res.status(200).json(
                 {
@@ -176,7 +179,7 @@ export class recipeController {
                 return;
             }
 
-            recipe.updateRecipe(title, makingTime, serves, ingredients, cost);
+            recipe.updateRecipe(title, makingTime, serves, ingredients, Number(cost));
             await repository.save(recipe);
             await queryRunner.commitTransaction();
             res.status(200).json(  {
@@ -187,12 +190,14 @@ export class recipeController {
                     "making_time": recipe.makingTime,
                     "serves": recipe.serves,
                     "ingredients": recipe.ingredients,
-                    "cost": `${recipe.cost}`
+                    "cost": recipe.cost.toString()
                   }
                 ]
               });
         } catch (error) {
-            await queryRunner.rollbackTransaction();
+            if(queryRunner.isTransactionActive) {
+                await queryRunner.rollbackTransaction();
+            }
             console.error("予想外のエラーが発生しました", error);
             res.status(500).json({
                 message: "Unexpected error occurred"
@@ -233,7 +238,9 @@ export class recipeController {
 
             res.status(200).json({  "message": "Recipe successfully removed!" });
         } catch (error) {
-            await queryRunner.rollbackTransaction();
+            if(queryRunner.isTransactionActive) {
+                await queryRunner.rollbackTransaction();
+            }
             console.error("予想外のエラーが発生しました", error);
             res.status(500).json({
                 message: "Unexpected error occurred"
@@ -241,5 +248,19 @@ export class recipeController {
         } finally {
             await queryRunner.release();
         }
+    }
+
+    /** 指定する形に変換する */
+    private static toDateString(date :Date){
+        //1を01にする
+        const pad = (n: number): string => (n < 10 ? '0' + n : n.toString());
+        const year = date.getFullYear();
+        const month = pad(date.getMonth() + 1); // 0からスタートする
+        const day = pad(date.getDate());
+        const hour = pad(date.getHours());
+        const minute = pad(date.getMinutes());
+        const second = pad(date.getSeconds());
+    
+        return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
     }
 }
