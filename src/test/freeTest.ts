@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 import AppDataSource, { initDb } from '../db/dataSource';
 import { Animal } from '../db/entity/animal';
-import { Recipes } from '../db/entity/Recipes';
+import { Recipes } from '../db/entity/recipe';
 
 /** 
  * docker内で実行するのを忘れずに

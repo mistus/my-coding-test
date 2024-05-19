@@ -2,26 +2,37 @@ import axios, { AxiosRequestConfig } from "axios";
 
 main();
 async function main(){
-
-    // const result = await get('http://localhost:3000/animals');
+    //GetAll
+    // const result = await get('http://localhost:3000/recipes');
     // console.log(result!.data);
 
-    // const id = 2;
-    // const result = await get(`http://localhost:3000/animals/${id}`);
+    //GetOne
+    // const result = await get('http://localhost:3000/recipes/1');
+    // console.log(result!.data);
+    
+    //Post
+    // const result = await post('http://localhost:3000/recipes', {
+    //     title: `カレー`,
+    //     making_time: `20分`,
+    //     serves: "1人",
+    //     ingredients: `カレーブロック、水、ライス`,
+    //     cost: 300
+    // });
     // console.log(result!.data);
 
-    // const name = `Dog`;
-    // const result = await post('http://localhost:3000/animals', {name: `${name}`});
-    // console.log(result);
+    //Patch
+    // const result = await patch('http://localhost:3000/recipes/11', {
+    //     title: `カレー改`,
+    //     making_time: `20分`,
+    //     serves: "1人",
+    //     ingredients: `カレーブロック２個、水、ライス`,
+    //     cost: 300
+    // });
+    // console.log(result!.data);
 
-    // const id = 2;
-    // const name = `Dog2`;
-    // const result = await patch(`http://localhost:3000/animals/${id}`, {name: `${name}`});
-    // console.log(result);
-
-    // const id = 2;
-    // const result = await deleteApi(`http://localhost:3000/animals/${id}`);
-    // console.log(result);
+    //Delete
+    // const result = await deleteApi('http://localhost:3000/recipes/11');
+    // console.log(result!.data);
 }
 
 async function get(endpoint: string)
