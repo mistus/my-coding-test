@@ -5,3 +5,7 @@ cd "$script_dir/../docker"
 
 docker-compose up -d;
 docker-compose exec server bash;
+docker-compose exec server bash;
+docker-compose exec server bash;
+docker-compose exec server bash;
+docker-compose exec server bash;
